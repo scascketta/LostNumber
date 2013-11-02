@@ -45,6 +45,7 @@ To get a Redis database, you can either [install it on your a server][3] using a
 
  - Clone the LostNumber code. `git clone https://github.com/scascketta/LostNumber.git`
  - Install the requirements, using a [virtualenv][8] is recommended. `pip install -r requirements.txt`
+ - In `app/views.py`, change the default value of `SECRET_KEY` to some long string. 
  - In the `app/details.py` file, replace the default values with your Redis address and port, as well as your Twilio Account SID, Auth Token and Twilio phone number. 
  - Start the Flask server. `python run.py` in a [screen][9] session.
  - Start the message dispatch process `python process_msg.py` in another screen session.
