@@ -1,9 +1,9 @@
-from redis import Redis
+from redis import StrictRedis
 from app import app
 import process_msg
 import details
 
-r = Redis(details.redis_addr)
+r = StrictRedis(host=details.redis_addr, port=details.redis_port)
 logger = app.logger
 
 

@@ -1,6 +1,6 @@
 from twilio.rest import TwilioRestClient
 from twilio import TwilioRestException
-from redis import Redis
+from redis import StrictRedis
 import time
 import details
 
@@ -10,7 +10,7 @@ client = TwilioRestClient(account_sid, auth_token)
 twilio_number = details.twilio_num
 
 
-r = Redis(details.redis_addr)
+r = StrictRedis(host=details.redis_addr, port=details.redis_port)
 
 
 def start_convo(num, body):
