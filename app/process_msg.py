@@ -47,6 +47,7 @@ def process_queue():
 
 
 def send_msg(dest, body):
+    body = body[:160]
     try:
         client.sms.messages.create(body=body, to=dest, from_=twilio_number)
     except TwilioRestException as e:
