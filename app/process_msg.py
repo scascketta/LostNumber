@@ -14,6 +14,10 @@ r = StrictRedis(host=details.redis_addr, port=details.redis_port)
 
 
 def start_convo(num, body):
+    """
+    Starts a convo by selecting random partner, adding
+    relevant index data, and queuing a msg.
+    """
     r.srem('available_nums', num)
     dest = r.srandmember('available_nums')
     state = r.smembers(num + ":state").pop()
@@ -38,6 +42,7 @@ def add_msg(dest, body):
 
 
 def process_queue():
+    """Pops msgs from the msg queue and dispatches them."""
     raw = r.lpop('message_queue')
     if raw:
         mark = raw.find(':')
@@ -47,6 +52,8 @@ def process_queue():
 
 
 def send_msg(dest, body):
+    # Trim msg body to 160 chars to prevent malicious attempts to send long
+    # msgs to incur excessive msg fees. 
     body = body[:160]
     try:
         client.sms.messages.create(body=body, to=dest, from_=twilio_number)

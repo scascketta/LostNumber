@@ -12,6 +12,7 @@ def is_num_registered(num):
 
 
 def register_num(data):
+    """Adds a number to our list of registered nums, records location data."""
     num = data['from']
     city = data['from_city']
     zipcode = data['from_zip']
@@ -32,7 +33,8 @@ def register_num(data):
     pipe.execute()
 
 
-def register_num(data):
+def check_if_register_num(data):
+    """Check if the number wants to register and send them respective msg."""
     sender = data['from']
     body = data['body']
     register = check_for_register(body)
@@ -62,6 +64,10 @@ def check_for(data, command):
 
 
 def start_convo(data):
+    """
+    Starts a convo. Removes START command and forwards msg to a randomly
+    selected number.
+    """
     body = data['body']
     num = data['from']
     body = body.replace('START', '')
@@ -74,6 +80,7 @@ def check_in_convo(num):
 
 
 def forward_convo(data):
+    """Adds the current number of messages sent and state data."""
     sender = data['from']
     convo_count = get_convo_count(sender)
     if convo_count >= 10:
@@ -89,6 +96,7 @@ def forward_convo(data):
 
 
 def able_to_start():
+    """Checks that there are at least two people in available nums."""
     size = r.scard('available_nums')
     return size >= 2
 
@@ -111,6 +119,10 @@ def incr_convo_count(num):
 
 
 def end_convo(num):
+    """
+    Removes participants from in_convo set, deletes the index data,
+    adds them back to available nums set.  
+    """
     partner = get_partner(num)
     logger.info('Ending convo between {0} and {1}'.format(num, partner))
     pipe = r.pipeline()
@@ -129,6 +141,7 @@ def end_convo(num):
 
 
 def handle_offline(data):
+    """Sets a user offline."""
     num = data['from']
     logger.info('Setting {0} to offline mode.'.format(num))
     pipe = r.pipeline()
@@ -143,6 +156,7 @@ def check_offline(data):
 
 
 def handle_online(data):
+    """Sets a user online."""
     num = data['from']
     logger.info('Setting {0} to online mode.'.format(num))
     pipe = r.pipeline()
