@@ -1,5 +1,5 @@
 from redis import StrictRedis
-from app import app
+from LostNumber import app
 import process_msg
 import details
 

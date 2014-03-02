@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from logging import FileHandler, Formatter
-from app import app
+from LostNumber import app
 import logging
 import time
 import os
